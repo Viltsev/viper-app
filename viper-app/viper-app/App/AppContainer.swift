@@ -9,7 +9,8 @@ import SwiftUI
 
 struct AppContainer: View {
     @StateObject var router: AppRouter = AppRouter()
-    @StateObject var interactor: TodoInteractor = TodoInteractor(persistenceController: PersistenceController.shared)
+    @StateObject var interactor: TodoInteractor = TodoInteractor(persistenceController: PersistenceController.shared,
+                                                                 apiClient: GeneralAPI())
     
     var body: some View {
         TodoListView(presenter: .init(interactor: interactor, router: router))

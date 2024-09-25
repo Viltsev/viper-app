@@ -14,14 +14,15 @@ class TodoInteractor: ObservableObject {
     @Published var selection: Selection = .all
     @Published var todoList: [LocalTodo] = []
     
-    private var apiClient: GeneralAPI = GeneralAPI()
+    private var apiClient: GeneralAPI
     private let persistenceController: PersistenceController
     
     var cancellable = Set<AnyCancellable>()
     
     
-    init(persistenceController: PersistenceController = .shared) {
+    init(persistenceController: PersistenceController = .shared, apiClient: GeneralAPI) {
         self.persistenceController = persistenceController
+        self.apiClient = apiClient
         bind()
     }
 }
