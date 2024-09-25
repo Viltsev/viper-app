@@ -6,9 +6,11 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct TodoListView: View {
     @ObservedObject var presenter: TodoPresenter
+    //@FetchRequest(entity: Todo.entity(), sortDescriptors: []) var todoList: FetchedResults<Todo>
     
     init(presenter: TodoPresenter) {
         self.presenter = presenter

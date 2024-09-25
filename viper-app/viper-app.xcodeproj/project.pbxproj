@@ -33,6 +33,8 @@
 		C1B74B642CA42F96004ACF8F /* ServerTodo.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1B74B632CA42F96004ACF8F /* ServerTodo.swift */; };
 		C1B74B662CA42FAA004ACF8F /* LocalTodos.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1B74B652CA42FAA004ACF8F /* LocalTodos.swift */; };
 		C1B74B6C2CA44FA2004ACF8F /* TodoStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1B74B6B2CA44FA2004ACF8F /* TodoStorage.swift */; };
+		C1B74B6F2CA45AD5004ACF8F /* Todo.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C1B74B6D2CA45AD5004ACF8F /* Todo.xcdatamodeld */; };
+		C1B74B722CA45BE2004ACF8F /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1B74B712CA45BE2004ACF8F /* PersistenceController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -82,6 +84,8 @@
 		C1B74B632CA42F96004ACF8F /* ServerTodo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerTodo.swift; sourceTree = "<group>"; };
 		C1B74B652CA42FAA004ACF8F /* LocalTodos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalTodos.swift; sourceTree = "<group>"; };
 		C1B74B6B2CA44FA2004ACF8F /* TodoStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoStorage.swift; sourceTree = "<group>"; };
+		C1B74B6E2CA45AD5004ACF8F /* CoreDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreDataModel.xcdatamodel; sourceTree = "<group>"; };
+		C1B74B712CA45BE2004ACF8F /* PersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,6 +136,7 @@
 		C1802FD92C9C3B790046FA82 /* viper-app */ = {
 			isa = PBXGroup;
 			children = (
+				C1B74B702CA45B8E004ACF8F /* CoreData */,
 				C18030342C9EC2020046FA82 /* App */,
 				C18030102C9C40D40046FA82 /* Components */,
 				C18030062C9C3BCF0046FA82 /* Helpers */,
@@ -352,6 +357,15 @@
 			path = Storage;
 			sourceTree = "<group>";
 		};
+		C1B74B702CA45B8E004ACF8F /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				C1B74B6D2CA45AD5004ACF8F /* Todo.xcdatamodeld */,
+				C1B74B712CA45BE2004ACF8F /* PersistenceController.swift */,
+			);
+			path = CoreData;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -484,6 +498,7 @@
 			files = (
 				C1B74B642CA42F96004ACF8F /* ServerTodo.swift in Sources */,
 				C18030282C9DAE390046FA82 /* Checkbox.swift in Sources */,
+				C1B74B6F2CA45AD5004ACF8F /* Todo.xcdatamodeld in Sources */,
 				C1802FDD2C9C3B790046FA82 /* ContentView.swift in Sources */,
 				C18030162C9C498B0046FA82 /* MenuSelector.swift in Sources */,
 				C18030332C9EC1B40046FA82 /* TodoDetailView.swift in Sources */,
@@ -496,6 +511,7 @@
 				C1B74B5A2CA420B9004ACF8F /* GeneralAPI.swift in Sources */,
 				C1B74B622CA42F73004ACF8F /* TodoModelMapper.swift in Sources */,
 				C1B74B662CA42FAA004ACF8F /* LocalTodos.swift in Sources */,
+				C1B74B722CA45BE2004ACF8F /* PersistenceController.swift in Sources */,
 				C180303A2C9ECCC00046FA82 /* Toolbar.swift in Sources */,
 				C1B74B6C2CA44FA2004ACF8F /* TodoStorage.swift in Sources */,
 				C18030312C9DEED10046FA82 /* Enums.swift in Sources */,
@@ -832,6 +848,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		C1B74B6D2CA45AD5004ACF8F /* Todo.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				C1B74B6E2CA45AD5004ACF8F /* CoreDataModel.xcdatamodel */,
+			);
+			currentVersion = C1B74B6E2CA45AD5004ACF8F /* CoreDataModel.xcdatamodel */;
+			path = Todo.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = C1802FCF2C9C3B790046FA82 /* Project object */;
 }

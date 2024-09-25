@@ -15,10 +15,13 @@ class TodoInteractor: ObservableObject {
     @Published var todoList: [LocalTodo] = []
     
     private var apiClient: GeneralAPI = GeneralAPI()
+    private let persistenceController: PersistenceController
     
     var cancellable = Set<AnyCancellable>()
     
-    init() {
+    
+    init(persistenceController: PersistenceController = .shared) {
+        self.persistenceController = persistenceController
         bind()
     }
 }
@@ -43,6 +46,7 @@ extension TodoInteractor {
                     case .success(let success):
                         self.todoList = success.todos ?? []
                         TodoStorage.shared.appStatus = true
+                        self.saveTaskListToCoreData()
                     case .failure(let failure):
                         print("Failure: \(failure)")
                     }
@@ -61,6 +65,9 @@ extension TodoInteractor {
                     DispatchQueue.main.async {
                         self.todoList[index].completed = true
                     }
+                    var newTask = task
+                    newTask.completed = true
+                    self.updateTaskInCoreData(task: newTask)
                 }
             }
             .store(in: &cancellable)
@@ -76,6 +83,9 @@ extension TodoInteractor {
                     DispatchQueue.main.async {
                         self.todoList[index].completed = false
                     }
+                    var newTask = task
+                    newTask.completed = false
+                    self.updateTaskInCoreData(task: newTask)
                 }
             }
             .store(in: &cancellable)
@@ -91,6 +101,7 @@ extension TodoInteractor {
                     DispatchQueue.main.async {
                         self.todoList[index] = editedTask
                     }
+                    self.updateTaskInCoreData(task: editedTask)
                 }
             }
             .store(in: &cancellable)
@@ -106,6 +117,7 @@ extension TodoInteractor {
                     DispatchQueue.main.async {
                         self.todoList.remove(at: index)
                     }
+                    self.deleteTaskFromCoreData(deletedTask.id)
                 }
             }
             .store(in: &cancellable)
@@ -125,7 +137,8 @@ extension TodoInteractor {
                                         userId: nil)
                 
                 DispatchQueue.main.async {
-                    self.todoList.append(newTask)
+                    self.todoList.insert(newTask, at: 0)
+                    self.saveTaskListToCoreData()
                 }
             }
             .store(in: &cancellable)
@@ -133,6 +146,28 @@ extension TodoInteractor {
     
     func generateId(_ todos: [LocalTodo]) -> Int {
         return (todos.max(by: { $0.id < $1.id })?.id ?? 0) + 1
+    }
+}
+
+extension TodoInteractor {
+    func fetchTasksFromCoreData() {
+        self.todoList = persistenceController.fetchTasks()
+    }
+    
+    private func saveTaskToCoreData(task: LocalTodo) {
+        persistenceController.saveTask(task: task)
+    }
+    
+    private func saveTaskListToCoreData() {
+        persistenceController.saveTaskList(list: self.todoList)
+    }
+    
+    private func deleteTaskFromCoreData(_ id: Int) {
+        persistenceController.deleteTask(taskId: id)
+    }
+    
+    private func updateTaskInCoreData(task: LocalTodo) {
+        persistenceController.updateTask(task: task)
     }
 }
 

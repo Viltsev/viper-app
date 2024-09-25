@@ -30,10 +30,11 @@ class TodoPresenter: ObservableObject {
     }
     
     func getTasks() {
-        interactor.input.getTasksSubject.send()
-//        if !TodoStorage.shared.appStatus {
-//            interactor.input.getTasksSubject.send()
-//        }
+        if !TodoStorage.shared.appStatus {
+            interactor.input.getTasksSubject.send()
+        } else {
+            interactor.fetchTasksFromCoreData()
+        }
     }
     
     func closeTask(_ task: LocalTodo) {
@@ -52,6 +53,10 @@ class TodoPresenter: ObservableObject {
     func deleteTask(_ task: LocalTodo) {
         interactor.input.deleteTaskSubject.send(task)
         router.popView()
+    }
+    
+    func delete() {
+        
     }
     
     func createTask(_ title: String, _ subtitle: String) {
