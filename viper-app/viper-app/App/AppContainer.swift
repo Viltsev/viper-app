@@ -10,10 +10,8 @@ import SwiftUI
 struct AppContainer: View {
     @StateObject var router: AppRouter = AppRouter()
     @StateObject var interactor: TodoInteractor = TodoInteractor(persistenceController: PersistenceController.shared)
-    //let persistenceController = PersistenceController.shared
     
     var body: some View {
         TodoListView(presenter: .init(interactor: interactor, router: router))
-            //.environment(\.managedObjectContext, persistenceController.container.viewContext)
     }
 }

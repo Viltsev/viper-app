@@ -55,12 +55,8 @@ class TodoPresenter: ObservableObject {
         router.popView()
     }
     
-    func delete() {
-        
-    }
-    
-    func createTask(_ title: String, _ subtitle: String) {
-        interactor.input.createTaskSubject.send((title, subtitle))
+    func createTask(_ title: String, _ subtitle: String, _ date: Date, _ startTime: String, _ endTime: String) {
+        interactor.input.createTaskSubject.send((title, subtitle, date, startTime, endTime))
         router.popView()
     }
     

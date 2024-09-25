@@ -16,9 +16,12 @@ final class TodoModelMapper: BaseModelMapper<ServerTodos, LocalTodos> {
 final class TodosModelMapper: BaseModelMapper<ServerTodo, LocalTodo> {
     override func toLocal(serverEntity: ServerTodo) -> LocalTodo {
         return LocalTodo(id: serverEntity.id ?? 0,
-                          todo: serverEntity.todo ?? "",
-                          subTodo: "",
-                          completed: serverEntity.completed ?? false,
-                          userId: serverEntity.userId)
+                         todo: serverEntity.todo ?? "",
+                         subTodo: "",
+                         completed: serverEntity.completed ?? false,
+                         userId: serverEntity.userId,
+                         date: Date(),
+                         startTime: "09:15 PM",
+                         endTime: "10:00 PM")
     }
 }

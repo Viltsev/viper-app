@@ -126,7 +126,7 @@ extension TodoInteractor {
     func createTask() {
         input.createTaskSubject
             .subscribe(on: DispatchQueue.global(qos: .background))
-            .sink { [weak self] title, subtitle in
+            .sink { [weak self] title, subtitle, date, startTime, endTime in
                 guard let self = self else { return }
                 
                 let newId = generateId(self.todoList)
@@ -134,7 +134,10 @@ extension TodoInteractor {
                                         todo: title,
                                         subTodo: subtitle,
                                         completed: false, 
-                                        userId: nil)
+                                        userId: nil, 
+                                        date: date,
+                                        startTime: startTime,
+                                        endTime: endTime)
                 
                 DispatchQueue.main.async {
                     self.todoList.insert(newTask, at: 0)
@@ -177,7 +180,7 @@ extension TodoInteractor {
         let openTaskSubject = PassthroughSubject<LocalTodo, Never>()
         let editTaskSubject = PassthroughSubject<LocalTodo, Never>()
         let deleteTaskSubject = PassthroughSubject<LocalTodo, Never>()
-        let createTaskSubject = PassthroughSubject<(String, String), Never>()
+        let createTaskSubject = PassthroughSubject<(String, String, Date, String, String), Never>()
         let getTasksSubject = PassthroughSubject<Void, Never>()
     }
 }

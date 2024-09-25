@@ -35,6 +35,7 @@
 		C1B74B6C2CA44FA2004ACF8F /* TodoStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1B74B6B2CA44FA2004ACF8F /* TodoStorage.swift */; };
 		C1B74B6F2CA45AD5004ACF8F /* Todo.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C1B74B6D2CA45AD5004ACF8F /* Todo.xcdatamodeld */; };
 		C1B74B722CA45BE2004ACF8F /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1B74B712CA45BE2004ACF8F /* PersistenceController.swift */; };
+		C1B74B742CA483DC004ACF8F /* FormateDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1B74B732CA483DC004ACF8F /* FormateDate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -86,6 +87,7 @@
 		C1B74B6B2CA44FA2004ACF8F /* TodoStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoStorage.swift; sourceTree = "<group>"; };
 		C1B74B6E2CA45AD5004ACF8F /* CoreDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreDataModel.xcdatamodel; sourceTree = "<group>"; };
 		C1B74B712CA45BE2004ACF8F /* PersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
+		C1B74B732CA483DC004ACF8F /* FormateDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormateDate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -199,6 +201,7 @@
 			children = (
 				C18030302C9DEED10046FA82 /* Enums.swift */,
 				C18030392C9ECCC00046FA82 /* Toolbar.swift */,
+				C1B74B732CA483DC004ACF8F /* FormateDate.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -496,6 +499,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C1B74B742CA483DC004ACF8F /* FormateDate.swift in Sources */,
 				C1B74B642CA42F96004ACF8F /* ServerTodo.swift in Sources */,
 				C18030282C9DAE390046FA82 /* Checkbox.swift in Sources */,
 				C1B74B6F2CA45AD5004ACF8F /* Todo.xcdatamodeld in Sources */,

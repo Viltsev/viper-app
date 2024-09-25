@@ -10,7 +10,6 @@ import CoreData
 
 struct TodoListView: View {
     @ObservedObject var presenter: TodoPresenter
-    //@FetchRequest(entity: Todo.entity(), sortDescriptors: []) var todoList: FetchedResults<Todo>
     
     init(presenter: TodoPresenter) {
         self.presenter = presenter
@@ -26,6 +25,9 @@ struct TodoListView: View {
                         TodoDetailView(model: model,
                                        title: model?.todo ?? "",
                                        subtitle: model?.subTodo ?? "",
+                                       date: model?.date ?? Date(),
+                                       startTime: Date(),
+                                       endTime: Date(),
                                        closeAction: presenter.closeDetailView,
                                        editAction: presenter.editTask,
                                        deleteAction: presenter.deleteTask,
@@ -54,7 +56,7 @@ extension TodoListView {
                 Text("Today's Task")
                     .font(.title2)
                     .bold()
-                Text("Wednesday, 11 May")
+                Text(FormateDate.currentDayTitle())
                     .font(.subheadline)
                     .foregroundStyle(.gray)
             }

@@ -16,11 +16,6 @@ struct TodoCell: View {
     
     var body: some View {
         content
-//        Color.gray
-//            .ignoresSafeArea()
-//            .overlay {
-//                content
-//            }
     }
 }
 
@@ -67,11 +62,11 @@ extension TodoCell {
     
     var bottomCell: some View {
         HStack(spacing: 10) {
-            Text("Today")
+            Text(FormateDate.formateDate(task.date))
                 .font(.footnote)
                 .foregroundStyle(.gray)
                 .bold()
-            Text("09:10 PM - 09:20 PM")
+            Text("\(task.startTime) - \(task.endTime)")
                 .font(.footnote)
                 .foregroundStyle(.grayLightText)
             Spacer()
@@ -79,10 +74,3 @@ extension TodoCell {
         .padding(.horizontal, 20)
     }
 }
-
-//#Preview {
-//    TodoCell(checked: false,
-//             task: .init(id: 1, todo: "task", subtitle: "subtask", complited: false),
-//             closeTask: (.),
-//             openTask: ())
-//}

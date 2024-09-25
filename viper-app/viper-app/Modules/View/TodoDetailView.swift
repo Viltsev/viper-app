@@ -11,11 +11,14 @@ struct TodoDetailView: View {
     @State var model: LocalTodo?
     @State var title: String
     @State var subtitle: String
+    @State var date: Date
+    @State var startTime: Date
+    @State var endTime: Date
     
     let closeAction: () -> ()
     let editAction: (LocalTodo) -> ()
     let deleteAction: (LocalTodo) -> ()
-    let createAction: (String, String) -> ()
+    let createAction: (String, String, Date, String, String) -> ()
     
     var body: some View {
         content
@@ -41,6 +44,16 @@ extension TodoDetailView {
                       axis: .vertical)
                 .font(.title3)
                 .foregroundColor(.grayText)
+            DatePicker("Choose Date", selection: $date)
+            HStack {
+                DatePicker("Start: ", selection: $startTime, displayedComponents: .hourAndMinute)
+                    .datePickerStyle(.graphical)
+                Spacer()
+                DatePicker("End: ", selection: $endTime, displayedComponents: .hourAndMinute)
+                    .datePickerStyle(.graphical)
+            }
+            .padding(.horizontal, 16)
+            
             Spacer()
             HStack {
                 Spacer()
@@ -69,16 +82,7 @@ extension TodoDetailView {
     
     var saveButton: some View {
         Button {
-            if let model = self.model {
-                let newModel = LocalTodo(id: model.id,
-                                         todo: self.title,
-                                         subTodo: self.subtitle,
-                                         completed: model.completed,
-                                         userId: model.userId)
-                editAction(newModel)
-            } else {
-                createAction(self.title, self.subtitle)
-            }
+            save()
         } label: {
             Image(systemName: "checkmark.circle.fill")
                 .foregroundColor(.black)
@@ -87,12 +91,39 @@ extension TodoDetailView {
     }
 }
 
+extension TodoDetailView {
+    func save() {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "h:mm a"
+        
+        let startTimeString = dateFormatter.string(from: self.startTime)
+        let endTimeString = dateFormatter.string(from: self.endTime)
+        
+        if let model = self.model {
+            let newModel = LocalTodo(id: model.id,
+                                     todo: self.title,
+                                     subTodo: self.subtitle,
+                                     completed: model.completed,
+                                     userId: model.userId,
+                                     date: self.date,
+                                     startTime: startTimeString,
+                                     endTime: endTimeString)
+            editAction(newModel)
+        } else {
+            createAction(self.title, self.subtitle, self.date, startTimeString, endTimeString)
+        }
+    }
+}
+
 #Preview {
     TodoDetailView(model: .mock,
                    title: "",
                    subtitle: "", 
+                   date: Date(),
+                   startTime: Date(),
+                   endTime: Date(),
                    closeAction: {},
                    editAction: { _ in },
                    deleteAction: { _ in},
-                   createAction: { _, _ in})
+                   createAction: { _, _, _, _, _ in})
 }
