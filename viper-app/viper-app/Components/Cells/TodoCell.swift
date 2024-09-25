@@ -9,10 +9,10 @@ import SwiftUI
 
 struct TodoCell: View {
     @State var checked: Bool
-    let task: ToDoModel
+    let task: LocalTodo
     
-    let closeTask: (ToDoModel) -> ()
-    let openTask: (ToDoModel) -> ()
+    let closeTask: (LocalTodo) -> ()
+    let openTask: (LocalTodo) -> ()
     
     var body: some View {
         content
@@ -52,7 +52,7 @@ extension TodoCell {
                     .font(.headline)
                     .bold()
                     .strikethrough(checked)
-                Text(task.subtitle)
+                Text(task.subTodo)
                     .font(.subheadline)
                     .foregroundStyle(.grayText)
             }

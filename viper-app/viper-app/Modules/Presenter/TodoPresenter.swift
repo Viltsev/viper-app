@@ -14,7 +14,7 @@ class TodoPresenter: ObservableObject {
     private var cancellable = Set<AnyCancellable>()
     
     @Published var selection: Selection = .all
-    @Published var todoList: [ToDoModel] = []
+    @Published var todoList: [LocalTodo] = []
     
     init(interactor: TodoInteractor, router: AppRouter) {
         self.interactor = interactor
@@ -29,20 +29,27 @@ class TodoPresenter: ObservableObject {
             .store(in: &cancellable)
     }
     
-    func closeTask(_ task: ToDoModel) {
+    func getTasks() {
+        interactor.input.getTasksSubject.send()
+//        if !TodoStorage.shared.appStatus {
+//            interactor.input.getTasksSubject.send()
+//        }
+    }
+    
+    func closeTask(_ task: LocalTodo) {
         interactor.input.closeTaskSubject.send(task)
     }
     
-    func openTask(_ task: ToDoModel) {
+    func openTask(_ task: LocalTodo) {
         interactor.input.openTaskSubject.send(task)
     }
     
-    func editTask(_ task: ToDoModel) {
+    func editTask(_ task: LocalTodo) {
         interactor.input.editTaskSubject.send(task)
         router.popView()
     }
     
-    func deleteTask(_ task: ToDoModel) {
+    func deleteTask(_ task: LocalTodo) {
         interactor.input.deleteTaskSubject.send(task)
         router.popView()
     }
@@ -52,7 +59,7 @@ class TodoPresenter: ObservableObject {
         router.popView()
     }
     
-    func pushDetailView(_ model: ToDoModel?) {
+    func pushDetailView(_ model: LocalTodo?) {
         router.pushView(AppNavigation.pushDetailView(model))
     }
     
@@ -60,11 +67,11 @@ class TodoPresenter: ObservableObject {
         router.popView()
     }
     
-    var openList: [ToDoModel] {
-        self.todoList.filter { $0.complited == false }
+    var openList: [LocalTodo] {
+        self.todoList.filter { $0.completed == false }
     }
     
-    var closedList: [ToDoModel] {
-        self.todoList.filter { $0.complited }
+    var closedList: [LocalTodo] {
+        self.todoList.filter { $0.completed }
     }
 }

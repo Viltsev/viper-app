@@ -9,7 +9,7 @@ import SwiftUI
 
 struct MenuSelector: View {
     @Binding var selectedItem: Selection
-    @Binding var allList: [ToDoModel]
+    @Binding var allList: [LocalTodo]
     
     var body: some View {
         HStack(spacing: 15) {
@@ -53,12 +53,12 @@ extension MenuSelector {
 }
 
 extension MenuSelector {
-    var openList: [ToDoModel] {
-        self.allList.filter { $0.complited == false }
+    var openList: [LocalTodo] {
+        self.allList.filter { $0.completed == false }
     }
     
-    var closedList: [ToDoModel] {
-        self.allList.filter { $0.complited }
+    var closedList: [LocalTodo] {
+        self.allList.filter { $0.completed }
     }
 }
 

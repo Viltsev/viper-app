@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct AddButton: View {
-    let action: (ToDoModel?) -> ()
+    let action: (LocalTodo?) -> ()
     
     var body: some View {
         Button {

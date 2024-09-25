@@ -8,13 +8,13 @@
 import SwiftUI
 
 struct TodoDetailView: View {
-    @State var model: ToDoModel?
+    @State var model: LocalTodo?
     @State var title: String
     @State var subtitle: String
     
     let closeAction: () -> ()
-    let editAction: (ToDoModel) -> ()
-    let deleteAction: (ToDoModel) -> ()
+    let editAction: (LocalTodo) -> ()
+    let deleteAction: (LocalTodo) -> ()
     let createAction: (String, String) -> ()
     
     var body: some View {
@@ -57,7 +57,7 @@ extension TodoDetailView {
     }
     
     @ViewBuilder
-    func deleteButton(_ model: ToDoModel) -> some View {
+    func deleteButton(_ model: LocalTodo) -> some View {
         Button {
             deleteAction(model)
         } label: {
@@ -70,10 +70,11 @@ extension TodoDetailView {
     var saveButton: some View {
         Button {
             if let model = self.model {
-                let newModel = ToDoModel(id: model.id,
+                let newModel = LocalTodo(id: model.id,
                                          todo: self.title,
-                                         subtitle: self.subtitle,
-                                         complited: model.complited)
+                                         subTodo: self.subtitle,
+                                         completed: model.completed,
+                                         userId: model.userId)
                 editAction(newModel)
             } else {
                 createAction(self.title, self.subtitle)

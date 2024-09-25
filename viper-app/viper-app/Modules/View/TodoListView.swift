@@ -23,13 +23,14 @@ struct TodoListView: View {
                     case let .pushDetailView(model):
                         TodoDetailView(model: model,
                                        title: model?.todo ?? "",
-                                       subtitle: model?.subtitle ?? "",
+                                       subtitle: model?.subTodo ?? "",
                                        closeAction: presenter.closeDetailView,
                                        editAction: presenter.editTask,
                                        deleteAction: presenter.deleteTask,
                                        createAction: presenter.createTask)
                     }
                 }
+                .onAppear(perform: presenter.getTasks)
         }
     }
 }
@@ -95,7 +96,7 @@ extension TodoListView {
                 Button {
                     presenter.pushDetailView(item)
                 } label: {
-                    TodoCell(checked: item.complited,
+                    TodoCell(checked: item.completed,
                              task: item,
                              closeTask: presenter.closeTask,
                              openTask: presenter.openTask)
@@ -110,7 +111,7 @@ extension TodoListView {
                 Button {
                     presenter.pushDetailView(item)
                 } label: {
-                    TodoCell(checked: item.complited,
+                    TodoCell(checked: item.completed,
                              task: item,
                              closeTask: presenter.closeTask,
                              openTask: presenter.openTask)
@@ -125,7 +126,7 @@ extension TodoListView {
                 Button {
                     presenter.pushDetailView(item)
                 } label: {
-                    TodoCell(checked: item.complited,
+                    TodoCell(checked: item.completed,
                              task: item,
                              closeTask: presenter.closeTask,
                              openTask: presenter.openTask)

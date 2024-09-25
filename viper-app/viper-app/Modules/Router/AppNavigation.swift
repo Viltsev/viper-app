@@ -8,5 +8,5 @@
 import Foundation
 
 enum AppNavigation: Hashable {
-    case pushDetailView(ToDoModel?)
+    case pushDetailView(LocalTodo?)
 }

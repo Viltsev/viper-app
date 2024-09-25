@@ -9,9 +9,9 @@ import SwiftUI
 
 struct Checkbox: View {
     @Binding var checked: Bool
-    let task: ToDoModel
-    let closeTask: (ToDoModel) -> ()
-    let openTask: (ToDoModel) -> ()
+    let task: LocalTodo
+    let closeTask: (LocalTodo) -> ()
+    let openTask: (LocalTodo) -> ()
     
     var body: some View {
         Button {

@@ -12,11 +12,9 @@ class TodoInteractor: ObservableObject {
     let input: Input = Input()
 
     @Published var selection: Selection = .all
-    @Published var todoList: [ToDoModel] =  [
-        .init(id: 1, todo: "title 1", subtitle: "subtitle 1", complited: false),
-        .init(id: 2, todo: "title 2", subtitle: "subtitle 2", complited: false),
-        .init(id: 3, todo: "title 3", subtitle: "subtitle 3", complited: false)
-    ]
+    @Published var todoList: [LocalTodo] = []
+    
+    private var apiClient: GeneralAPI = GeneralAPI()
     
     var cancellable = Set<AnyCancellable>()
     
@@ -32,15 +30,37 @@ extension TodoInteractor {
         editTask()
         deleteTask()
         createTask()
+        getTasks()
+    }
+    
+    func getTasks() {
+        input.getTasksSubject
+            .subscribe(on: DispatchQueue.global(qos: .background))
+            .sink { [weak self] in
+                guard let self = self else { return }
+                apiClient.getTodoList { result in
+                    switch result {
+                    case .success(let success):
+                        self.todoList = success.todos ?? []
+                        TodoStorage.shared.appStatus = true
+                    case .failure(let failure):
+                        print("Failure: \(failure)")
+                    }
+                }
+            }
+            .store(in: &cancellable)
     }
     
     func closeTask() {
         input.closeTaskSubject
+            .subscribe(on: DispatchQueue.global(qos: .background))
             .sink { [weak self] task in
                 guard let self = self else { return }
                 
                 if let index = self.todoList.firstIndex(where: { $0.id == task.id }) {
-                    self.todoList[index].complited = true
+                    DispatchQueue.main.async {
+                        self.todoList[index].completed = true
+                    }
                 }
             }
             .store(in: &cancellable)
@@ -48,11 +68,14 @@ extension TodoInteractor {
     
     func openTask() {
         input.openTaskSubject
+            .subscribe(on: DispatchQueue.global(qos: .background))
             .sink { [weak self] task in
                 guard let self = self else { return }
                 
                 if let index = self.todoList.firstIndex(where: { $0.id == task.id }) {
-                    self.todoList[index].complited = false
+                    DispatchQueue.main.async {
+                        self.todoList[index].completed = false
+                    }
                 }
             }
             .store(in: &cancellable)
@@ -60,11 +83,14 @@ extension TodoInteractor {
     
     func editTask() {
         input.editTaskSubject
+            .subscribe(on: DispatchQueue.global(qos: .background))
             .sink { [weak self] editedTask in
                 guard let self = self else { return }
                 
                 if let index = self.todoList.firstIndex(where: { $0.id == editedTask.id }) {
-                    self.todoList[index] = editedTask
+                    DispatchQueue.main.async {
+                        self.todoList[index] = editedTask
+                    }
                 }
             }
             .store(in: &cancellable)
@@ -72,11 +98,14 @@ extension TodoInteractor {
     
     func deleteTask() {
         input.deleteTaskSubject
+            .subscribe(on: DispatchQueue.global(qos: .background))
             .sink { [weak self] deletedTask in
                 guard let self = self else { return }
                 
                 if let index = self.todoList.firstIndex(where: { $0.id == deletedTask.id }) {
-                    self.todoList.remove(at: index)
+                    DispatchQueue.main.async {
+                        self.todoList.remove(at: index)
+                    }
                 }
             }
             .store(in: &cancellable)
@@ -84,30 +113,36 @@ extension TodoInteractor {
     
     func createTask() {
         input.createTaskSubject
+            .subscribe(on: DispatchQueue.global(qos: .background))
             .sink { [weak self] title, subtitle in
                 guard let self = self else { return }
                 
                 let newId = generateId(self.todoList)
-                let newTask = ToDoModel(id: newId,
+                let newTask = LocalTodo(id: newId,
                                         todo: title,
-                                        subtitle: subtitle,
-                                        complited: false)
-                self.todoList.append(newTask)
+                                        subTodo: subtitle,
+                                        completed: false, 
+                                        userId: nil)
+                
+                DispatchQueue.main.async {
+                    self.todoList.append(newTask)
+                }
             }
             .store(in: &cancellable)
     }
     
-    func generateId(_ todos: [ToDoModel]) -> Int {
+    func generateId(_ todos: [LocalTodo]) -> Int {
         return (todos.max(by: { $0.id < $1.id })?.id ?? 0) + 1
     }
 }
 
 extension TodoInteractor {
     struct Input {
-        let closeTaskSubject = PassthroughSubject<ToDoModel, Never>()
-        let openTaskSubject = PassthroughSubject<ToDoModel, Never>()
-        let editTaskSubject = PassthroughSubject<ToDoModel, Never>()
-        let deleteTaskSubject = PassthroughSubject<ToDoModel, Never>()
+        let closeTaskSubject = PassthroughSubject<LocalTodo, Never>()
+        let openTaskSubject = PassthroughSubject<LocalTodo, Never>()
+        let editTaskSubject = PassthroughSubject<LocalTodo, Never>()
+        let deleteTaskSubject = PassthroughSubject<LocalTodo, Never>()
         let createTaskSubject = PassthroughSubject<(String, String), Never>()
+        let getTasksSubject = PassthroughSubject<Void, Never>()
     }
 }
